@@ -37,7 +37,7 @@
         </dependency>
 
         <!-- Database -->
-        <dependency>
+        <!-- <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
@@ -46,8 +46,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
-        </dependency>
-
+        </dependency> -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+</dependency>
         <!-- Spring Cloud for Microservices -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
