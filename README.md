@@ -143,7 +143,7 @@ npm start
 ## Development
 
 The application uses:
-- Backend runs on port 8080
+- Backend runs on port 8000
 - Frontend runs on port 3000
 - CORS is configured for cross-origin requests
 - Hot reload enabled for both services
