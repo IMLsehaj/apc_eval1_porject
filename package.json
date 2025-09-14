@@ -1,0 +1,24 @@
+{
+  "name": "logistics-tracking-system",
+  "version": "1.0.0",
+  "description": "Full-stack logistics tracking system with Spring Boot backend and React frontend",
+  "scripts": {
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "mvnw spring-boot:run",
+    "frontend": "cd frontend && npm start",
+    "install-all": "npm install && cd frontend && npm install",
+    "build": "mvn clean package && cd frontend && npm run build",
+    "dev": "npm run start"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "keywords": [
+    "logistics",
+    "tracking",
+    "spring-boot",
+    "react"
+  ],
+  "author": "Student",
+  "license": "MIT"
+}
