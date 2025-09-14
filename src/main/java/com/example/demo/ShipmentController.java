@@ -158,15 +158,28 @@ public ResponseEntity<?> getShipmentByTrackingNumber(@PathVariable String tracki
                                       HttpStatus.BAD_REQUEST);
         }
 
-        // 4️⃣ Update shipment status
+        // 4️⃣ Check if shipment exists and fees are paid before updating status
+        Optional<Shipment> shipmentOpt = shipmentService.trackShipment(trackingNumber);
+        if (!shipmentOpt.isPresent()) {
+            System.out.println("DEBUG: Shipment not found with tracking number: " + trackingNumber);
+            return new ResponseEntity<>("Shipment not found with tracking number: " + trackingNumber, HttpStatus.NOT_FOUND);
+        }
+        
+        Shipment shipment = shipmentOpt.get();
+        if (!shipment.isFeesPaid()) {
+            System.out.println("DEBUG: Fees not paid for shipment: " + trackingNumber);
+            return new ResponseEntity<>("Cannot update shipment status. Fees are not paid for this shipment.", HttpStatus.FORBIDDEN);
+        }
+
+        // 5️⃣ Update shipment status
         Optional<Shipment> updatedShipment = shipmentService.updateShipmentStatus(trackingNumber, trackingStatus);
         
         if (updatedShipment.isPresent()) {
             System.out.println("DEBUG: Shipment status updated successfully");
             return new ResponseEntity<>(updatedShipment.get(), HttpStatus.OK);
         } else {
-            System.out.println("DEBUG: Shipment not found with tracking number: " + trackingNumber);
-            return new ResponseEntity<>("Shipment not found with tracking number: " + trackingNumber, HttpStatus.NOT_FOUND);
+            System.out.println("DEBUG: Failed to update shipment status");
+            return new ResponseEntity<>("Failed to update shipment status", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

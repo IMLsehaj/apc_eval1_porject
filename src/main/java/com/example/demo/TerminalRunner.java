@@ -19,11 +19,7 @@ public class TerminalRunner implements CommandLineRunner {
     private String loggedInUser = null;
 
     @Override
-<<<<<<< HEAD
         public void run(String... args) {
-=======
-    public void run(String... args) {
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
         Scanner scanner = new Scanner(System.in);
         System.out.println("=============================================");
         System.out.println("   Logistics and Delivery Tracking System    ");
@@ -49,7 +45,6 @@ public class TerminalRunner implements CommandLineRunner {
             }
         }
 
-<<<<<<< HEAD
         // 🔹 Main shipment operations loop with role-based dashboard
         Optional<User> userOpt = userRepository.findByUsername(loggedInUser);
         if (!userOpt.isPresent()) {
@@ -143,35 +138,6 @@ public class TerminalRunner implements CommandLineRunner {
                             System.out.println("\n Invalid choice. Please try again.");
                     }
                     break;
-=======
-        // 🔹 Main shipment operations loop
-        boolean running = true;
-        while (running) {
-            printMenu();
-            String choice = scanner.nextLine().trim();
-
-            switch (choice) {
-                case "1":
-                    createShipment(scanner);
-                    break;
-                case "2":
-                    trackShipment(scanner);
-                    break;
-                case "3":
-                    updateShipmentStatus(scanner);
-                    break;
-                case "4":
-                    System.out.println("\n Logging out...");
-                    loggedInUser = null; 
-                    run(); // restart login/signup flow
-                    return;
-                case "5":
-                    System.out.println("\n Exiting application. Goodbye!");
-                    running = false;
-                    break;
-                default:
-                    System.out.println("\n Invalid choice. Please try again.");
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
             }
         }
         scanner.close();
@@ -198,7 +164,6 @@ public class TerminalRunner implements CommandLineRunner {
         System.out.print("Enter a password: ");
         String password = scanner.nextLine().trim();
 
-<<<<<<< HEAD
         System.out.print("Enter your email: ");
         String email = scanner.nextLine().trim();
 
@@ -226,11 +191,6 @@ public class TerminalRunner implements CommandLineRunner {
         User newUser = new User(username, password, email, phoneNumber, houseAddress, role);
         userRepository.save(newUser); // ✅ Stored in SQL
         System.out.println("User registered successfully as " + role + "! Please login.");
-=======
-        User newUser = new User(username, password);
-        userRepository.save(newUser); // ✅ Stored in SQL
-        System.out.println("User registered successfully! Please login.");
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
     }
 
     private void login(Scanner scanner) {
@@ -242,18 +202,13 @@ public class TerminalRunner implements CommandLineRunner {
         Optional<User> userOpt = userRepository.findByUsername(username);
         if (userOpt.isPresent() && userOpt.get().getPassword().equals(password)) {
             loggedInUser = username;
-<<<<<<< HEAD
             System.out.println(" Login successful! Welcome, " + username + " (Role: " + userOpt.get().getRole() + ")");
-=======
-            System.out.println(" Login successful! Welcome, " + username + " ");
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
         } else {
             System.out.println(" Invalid username or password.");
         }
     }
 
     // ========================= SHIPMENT SECTION =========================
-<<<<<<< HEAD
     private void printMenuByRole(UserRole role) {
         System.out.println("\n--- Main Menu --- (Logged in as: " + loggedInUser + " | Role: " + role + ")");
         switch (role) {
@@ -332,16 +287,6 @@ public class TerminalRunner implements CommandLineRunner {
         }
         userRepository.save(user);
         System.out.println("User details updated successfully.");
-=======
-    private void printMenu() {
-        System.out.println("\n--- Main Menu --- (Logged in as: " + loggedInUser + ")");
-        System.out.println("1  Create a new Shipment");
-        System.out.println("2  Track a Shipment");
-        System.out.println("3  Update Shipment Status");
-        System.out.println("4  Log Out");
-        System.out.println("5  Exit");
-        System.out.print(" Enter your choice: ");
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
     }
 
     private void createShipment(Scanner scanner) {
@@ -350,7 +295,6 @@ public class TerminalRunner implements CommandLineRunner {
         System.out.print("Enter Destination: ");
         String destination = scanner.nextLine().trim();
 
-<<<<<<< HEAD
         Optional<User> userOpt = userRepository.findByUsername(loggedInUser);
         if (!userOpt.isPresent()) {
             System.out.println("\n❌ Could not find user to create shipment.");
@@ -364,20 +308,14 @@ public class TerminalRunner implements CommandLineRunner {
         // The user is already set in the service, so we just save the fees info
         shipmentService.updateShipmentStatus(shipment.getTrackingNumber(), shipment.getStatus());
 
-=======
-        Shipment shipment = shipmentService.createShipment(origin, destination);
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
         System.out.println("\n Shipment Created Successfully!");
         System.out.println("---------------------------------");
         System.out.println("Tracking Number : " + shipment.getTrackingNumber());
         System.out.println("Origin          : " + shipment.getOrigin());
         System.out.println("Destination     : " + shipment.getDestination());
         System.out.println("Status          : " + shipment.getStatus());
-<<<<<<< HEAD
         System.out.println("Fees to be paid : Rs. 1000");
         System.out.println("Note: You must pay the fees to track your shipment.");
-=======
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
     }
 
     private void trackShipment(Scanner scanner) {
@@ -387,7 +325,6 @@ public class TerminalRunner implements CommandLineRunner {
         Optional<Shipment> shipmentOpt = shipmentService.trackShipment(trackingNumber);
         if (shipmentOpt.isPresent()) {
             Shipment s = shipmentOpt.get();
-<<<<<<< HEAD
             Optional<User> userOpt = userRepository.findByUsername(loggedInUser);
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
@@ -400,8 +337,6 @@ public class TerminalRunner implements CommandLineRunner {
                     return;
                 }
             }
-=======
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
             System.out.println("\n Shipment Details");
             System.out.println("---------------------------------");
             System.out.println("Tracking Number : " + s.getTrackingNumber());
@@ -415,7 +350,6 @@ public class TerminalRunner implements CommandLineRunner {
     }
 
     private void updateShipmentStatus(Scanner scanner) {
-<<<<<<< HEAD
         // Get the logged-in user and check their role
         Optional<User> userOpt = userRepository.findByUsername(loggedInUser);
         if (userOpt.isPresent()) {
@@ -447,11 +381,6 @@ public class TerminalRunner implements CommandLineRunner {
             }
         }
 
-=======
-        System.out.print("\nEnter Tracking Number: ");
-        String trackingNumber = scanner.nextLine().trim();
-
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
         System.out.println("\nAvailable Statuses:");
         for (TrackingStatus status : TrackingStatus.values()) {
             System.out.println(" - " + status.name());
@@ -477,7 +406,6 @@ public class TerminalRunner implements CommandLineRunner {
             System.out.println("\n❌ Invalid status. Please enter a valid status from the list above.");
         }
     }
-<<<<<<< HEAD
 
     // ADMIN ONLY: Change fees status for a shipment
     private void changeFeesStatus(Scanner scanner) {
@@ -504,6 +432,4 @@ public class TerminalRunner implements CommandLineRunner {
         shipmentService.updateShipmentStatus(trackingNumber, shipment.getStatus());
         System.out.println("Fees status updated successfully.");
     }
-=======
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
 }

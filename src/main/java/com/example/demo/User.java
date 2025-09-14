@@ -1,12 +1,10 @@
 package com.example.demo;
 
 import javax.persistence.*;
-<<<<<<< HEAD
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-=======
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
 
 @Entity
 @Table(name = "users")
@@ -21,7 +19,7 @@ public class User {
 
     @Column(nullable = false)
     private String password;
-<<<<<<< HEAD
+
 
     @Email
     @Column(unique = true, nullable = false)
@@ -53,10 +51,7 @@ public class User {
     }
 
     // Getters and setters
-=======
-    
 
-    public User() {}
 
     public User(String username, String password) {
         this.username = username;
@@ -64,7 +59,7 @@ public class User {
     }
 
     // Getters & Setters
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
+
     public Long getId() {
         return id;
     }
@@ -82,7 +77,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-<<<<<<< HEAD
 
     public String getEmail() {
         return email;
@@ -124,6 +118,4 @@ public class User {
     public void setShipments(java.util.List<Shipment> shipments) {
         this.shipments = shipments;
     }
-=======
->>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
 }
