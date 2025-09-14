@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Java
 /target/
 *.class
@@ -34,6 +35,8 @@ Thumbs.db
 frontend/node_modules/
 frontend/build/
 frontend/.env
+=======
+>>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar

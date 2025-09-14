@@ -1,5 +1,6 @@
 package com.example.demo;
 
+<<<<<<< HEAD
 // import javax.persistence.Entity;
 // import javax.persistence.GeneratedValue;
 // import javax.persistence.GenerationType;
@@ -32,6 +33,18 @@ public class Shipment {
     public void setFeesAmount(int feesAmount) {
         this.feesAmount = feesAmount;
     }
+=======
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import java.time.LocalDateTime;
+
+@Entity
+public class Shipment {
+>>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +53,7 @@ public class Shipment {
     private String origin;
     private String destination;
 
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @com.fasterxml.jackson.annotation.JsonBackReference
@@ -56,6 +70,8 @@ public class Shipment {
     
 
 
+=======
+>>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
     @Enumerated(EnumType.STRING)
     private TrackingStatus status;
 
@@ -64,8 +80,11 @@ public class Shipment {
 
     // Getters and Setters
 
+<<<<<<< HEAD
    
 
+=======
+>>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
     public Long getId() {
         return id;
     }

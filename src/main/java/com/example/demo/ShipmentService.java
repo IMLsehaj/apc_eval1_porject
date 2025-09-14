@@ -12,6 +12,7 @@ public class ShipmentService {
 
     @Autowired
     private ShipmentRepository shipmentRepository;
+<<<<<<< HEAD
     
 
 
@@ -30,10 +31,18 @@ public class ShipmentService {
         shipment.setOrigin(origin.trim());
         shipment.setDestination(destination.trim());
         shipment.setUser(user);
+=======
+
+    public Shipment createShipment(String origin, String destination) {
+        Shipment shipment = new Shipment();
+        shipment.setOrigin(origin);
+        shipment.setDestination(destination);
+>>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
         shipment.setTrackingNumber(UUID.randomUUID().toString());
         shipment.setStatus(TrackingStatus.PENDING);
         shipment.setCreatedDate(LocalDateTime.now());
         shipment.setLastUpdatedDate(LocalDateTime.now());
+<<<<<<< HEAD
         
         try {
             return shipmentRepository.save(shipment);
@@ -47,6 +56,13 @@ public class ShipmentService {
      }
     public Optional<Shipment> trackShipmentWithUser(String trackingNumber) {
     return shipmentRepository.findByTrackingNumberWithUser(trackingNumber);
+=======
+        return shipmentRepository.save(shipment);
+    }
+
+    public Optional<Shipment> trackShipment(String trackingNumber) {
+        return shipmentRepository.findByTrackingNumber(trackingNumber);
+>>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
     }
 
     public Optional<Shipment> updateShipmentStatus(String trackingNumber, TrackingStatus status) {
@@ -60,6 +76,7 @@ public class ShipmentService {
         }
         return Optional.empty();
     }
+<<<<<<< HEAD
 
     public Optional<Shipment> updateFeesStatus(String trackingNumber, boolean paid) {
         Optional<Shipment> shipmentOpt = shipmentRepository.findByTrackingNumber(trackingNumber);
@@ -72,4 +89,6 @@ public class ShipmentService {
         }
         return Optional.empty();
     }
+=======
+>>>>>>> c6b104e9e877563a2e1a1d208f8998f68b682946
 }
