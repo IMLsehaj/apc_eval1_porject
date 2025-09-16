@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api/shipments';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL + '/api/shipments' || 'http://localhost:8080/api/shipments';
 
 export const shipmentService = {
+  getAllShipments: async (username) => {
+    return await axios.get(`${API_BASE_URL}/all?username=${username}`);
+  },
   createShipment: async (origin, destination, username) => {
   return await axios.post(
     `${API_BASE_URL}/createshipment`, // The base URL

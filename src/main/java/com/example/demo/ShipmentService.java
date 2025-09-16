@@ -65,11 +65,19 @@ public class ShipmentService {
         Optional<Shipment> shipmentOpt = shipmentRepository.findByTrackingNumber(trackingNumber);
         if (shipmentOpt.isPresent()) {
             Shipment shipment = shipmentOpt.get();
-            shipment.setFeesPaid(paid);
+            shipment.setFeePaid(paid);
             shipment.setLastUpdatedDate(LocalDateTime.now());
             shipmentRepository.save(shipment);
             return Optional.of(shipment);
         }
         return Optional.empty();
+    }
+
+    public java.util.List<Shipment> getAllShipments() {
+        return shipmentRepository.findAll();
+    }
+    
+    public java.util.List<Shipment> getShipmentsByUser(User user) {
+        return shipmentRepository.findByUser(user);
     }
 }

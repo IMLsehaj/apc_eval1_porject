@@ -303,7 +303,7 @@ public class TerminalRunner implements CommandLineRunner {
         User user = userOpt.get();
 
         Shipment shipment = shipmentService.createShipment(origin, destination, user);
-        shipment.setFeesPaid(false);
+        shipment.setFeePaid(false);
         shipment.setFeesAmount(1000);
         // The user is already set in the service, so we just save the fees info
         shipmentService.updateShipmentStatus(shipment.getTrackingNumber(), shipment.getStatus());
@@ -332,7 +332,7 @@ public class TerminalRunner implements CommandLineRunner {
                     System.out.println("\n❌ Access denied. You can only track your own shipments.");
                     return;
                 }
-                if (user.getRole() == UserRole.CUSTOMER && !s.isFeesPaid()) {
+                if (user.getRole() == UserRole.CUSTOMER && !s.isFeePaid()) {
                     System.out.println("\n❌ Fees not paid. Please pay the shipment fees to track your shipment.");
                     return;
                 }
@@ -375,7 +375,7 @@ public class TerminalRunner implements CommandLineRunner {
         Optional<User> userOpt2 = userRepository.findByUsername(loggedInUser);
         if (userOpt2.isPresent()) {
             User user = userOpt2.get();
-            if (user.getRole() == UserRole.MANAGER && !shipment.isFeesPaid()) {
+            if (user.getRole() == UserRole.MANAGER && !shipment.isFeePaid()) {
                 System.out.println("\n❌ Fees not paid. Manager cannot update status until fees are paid.");
                 return;
             }
@@ -417,13 +417,13 @@ public class TerminalRunner implements CommandLineRunner {
             return;
         }
         Shipment shipment = shipmentOpt.get();
-        System.out.println("Current fees status: " + (shipment.isFeesPaid() ? "PAID" : "NOT PAID"));
+        System.out.println("Current fees status: " + (shipment.isFeePaid() ? "PAID" : "NOT PAID"));
         System.out.print("Enter new fees status (paid/not paid): ");
         String status = scanner.nextLine().trim().toLowerCase();
         if (status.equals("paid")) {
-            shipment.setFeesPaid(true);
+            shipment.setFeePaid(true);
         } else if (status.equals("not paid")) {
-            shipment.setFeesPaid(false);
+            shipment.setFeePaid(false);
         } else {
             System.out.println("Invalid input. Fees status not changed.");
             return;

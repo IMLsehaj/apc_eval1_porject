@@ -38,6 +38,9 @@ const Navbar = () => {
         >
           Logistics Tracking System
         </h1>
+        <button className="btn btn-link" onClick={() => navigate('/all-shipments')}>
+          View All Shipments
+        </button>
         <div className="user-info">
           <span>Welcome, {user.username} ({user.role})</span>
           <button 

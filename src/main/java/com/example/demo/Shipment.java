@@ -104,11 +104,11 @@ public class Shipment {
     public void setLastUpdatedDate(LocalDateTime lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
     }
-    public boolean isFeesPaid() {
+    public boolean isFeePaid() {
     return feePaid;
 }
 
-public void setFeesPaid(boolean feePaid) {
+public void setFeePaid(boolean feePaid) {
     this.feePaid = feePaid;
 }
 

@@ -40,6 +40,36 @@ public class ShipmentController {
     }
 
     /**
+     * Endpoint to get all shipments based on user role
+     * ADMIN and MANAGER: Can see all shipments
+     * CUSTOMER: Can only see their own shipments
+     */
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllShipments(@RequestParam String username) {
+        // Validate user
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        if (!userOpt.isPresent()) {
+            return new ResponseEntity<>("User not found: " + username, HttpStatus.UNAUTHORIZED);
+        }
+        User user = userOpt.get();
+        
+        // Role-based access control
+        switch (user.getRole()) {
+            case ADMIN:
+            case MANAGER:
+                // Admin and Manager can see all shipments
+                return new ResponseEntity<>(shipmentService.getAllShipments(), HttpStatus.OK);
+                
+            case CUSTOMER:
+                // Customer can only see their own shipments
+                return new ResponseEntity<>(shipmentService.getShipmentsByUser(user), HttpStatus.OK);
+                
+            default:
+                return new ResponseEntity<>("Invalid user role.", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    /**
      * Endpoint to get a shipment by its tracking number.
      * trackingNumber The tracking number of the shipment.
      *  The shipment if found, otherwise a 404 Not Found response.
@@ -78,7 +108,7 @@ public ResponseEntity<?> getShipmentByTrackingNumber(@PathVariable String tracki
             return new ResponseEntity<>(shipment, HttpStatus.OK);
 
         case MANAGER:
-            if (!shipment.isFeesPaid()) {
+            if (!shipment.isFeePaid()) {
                 return new ResponseEntity<>("Fees not paid. Manager cannot track this shipment.", HttpStatus.FORBIDDEN);
             }
             return new ResponseEntity<>(shipment, HttpStatus.OK);
@@ -88,7 +118,7 @@ public ResponseEntity<?> getShipmentByTrackingNumber(@PathVariable String tracki
             if (!user.getUsername().equals(shipment.getUser().getUsername())) {
                 return new ResponseEntity<>("Access denied. You can only track your own shipments.", HttpStatus.FORBIDDEN);
             }
-            if (!shipment.isFeesPaid()) {
+            if (!shipment.isFeePaid()) {
                 return new ResponseEntity<>("Fees not paid. Please pay the shipment fees to track your shipment.", HttpStatus.FORBIDDEN);
             }
             return new ResponseEntity<>(shipment, HttpStatus.OK);
@@ -166,7 +196,7 @@ public ResponseEntity<?> getShipmentByTrackingNumber(@PathVariable String tracki
         }
         
         Shipment shipment = shipmentOpt.get();
-        if (!shipment.isFeesPaid()) {
+        if (!shipment.isFeePaid()) {
             System.out.println("DEBUG: Fees not paid for shipment: " + trackingNumber);
             return new ResponseEntity<>("Cannot update shipment status. Fees are not paid for this shipment.", HttpStatus.FORBIDDEN);
         }

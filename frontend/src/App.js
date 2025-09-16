@@ -11,6 +11,7 @@ import ShipmentTracker from './pages/ShipmentTracker';
 import UpdateShipmentStatus from './pages/UpdateShipmentStatus';
 import UpdateFeesStatus from './pages/UpdateFeesStatus';
 import UserList from './pages/UserList';
+import AllShipments from './pages/AllShipments';
 import './App.css';
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
               <Route path="/update-status" element={<ProtectedRoute><UpdateShipmentStatus /></ProtectedRoute>} />
               <Route path="/update-fees" element={<ProtectedRoute><UpdateFeesStatus /></ProtectedRoute>} />
               <Route path="/users" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
-              
+              <Route path="/all-shipments" element={<ProtectedRoute><AllShipments /></ProtectedRoute>} />
               {/* Default redirect */}
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
             </Routes>
