@@ -22,38 +22,83 @@ const AllShipments = () => {
     }
   }, [user]);
 
-  if (loading) return <div>Loading shipments...</div>;
-  if (error) return <div style={{color: 'red'}}>{error}</div>;
+  if (loading) return (
+    <div className="loading text-center p-5">
+      <div className="loading-spinner mb-3"></div>
+      <p>Loading shipments...</p>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="alert alert-error">
+      <span>⚠️</span>
+      {error}
+    </div>
+  );
 
   return (
-    <div className="container">
-      <h2>{user?.role === 'CUSTOMER' ? 'My Shipments' : 'All Shipments'}</h2>
-      <table border="1" cellPadding="8" style={{width: '100%', borderCollapse: 'collapse'}}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tracking Number</th>
-            <th>Origin</th>
-            <th>Destination</th>
-            <th>Status</th>            
-            <th>Created</th>
-            <th>Last Updated</th>
-          </tr>
-        </thead>
-        <tbody>
-          {shipments.map(s => (
-            <tr key={s.id}>
-              <td>{s.id}</td>
-              <td>{s.trackingNumber}</td>
-              <td>{s.origin}</td>
-              <td>{s.destination}</td>
-              <td>{s.status}</td>
-              <td>{s.createdDate}</td>
-              <td>{s.lastUpdatedDate}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="container fade-in">
+      <div className="card">
+        <div className="card-header">
+          <h2 className="card-title text-gradient">
+            {user?.role === 'CUSTOMER' ? 'My Shipments' : 'All Shipments'}
+          </h2>
+          <p className="card-subtitle">
+            {user?.role === 'CUSTOMER' 
+              ? 'Track and manage your shipments' 
+              : 'Manage all shipments in the system'
+            }
+          </p>
+        </div>
+        
+        {shipments.length === 0 ? (
+          <div className="text-center p-5">
+            <p className="mb-3">No shipments found.</p>
+            <a href="/create-shipment" className="btn btn-primary">
+              Create New Shipment
+            </a>
+          </div>
+        ) : (
+          <div className="table-container">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tracking Number</th>
+                  <th>Origin</th>
+                  <th>Destination</th>
+                  <th>Status</th>
+                  <th>Fee Paid</th>
+                  <th>Created</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {shipments.map(s => (
+                  <tr key={s.id} className="slide-in">
+                    <td><span className="badge badge-primary">#{s.id}</span></td>
+                    <td><strong>{s.trackingNumber}</strong></td>
+                    <td>{s.origin}</td>
+                    <td>{s.destination}</td>
+                    <td>
+                      <span className={`status status-${s.status?.toLowerCase()?.replace('_', '-') || 'pending'}`}>
+                        {s.status || 'PENDING'}
+                      </span>
+                    </td>
+                    <td>
+                      <span className={`badge ${s.feePaid ? 'badge-success' : 'badge-warning'}`}>
+                        {s.feePaid ? '✓ Yes' : '✗ No'}
+                      </span>
+                    </td>
+                    <td>{s.createdDate}</td>
+                    <td>{s.lastUpdatedDate}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

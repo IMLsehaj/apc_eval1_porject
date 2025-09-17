@@ -18,7 +18,8 @@ const Dashboard = () => {
   const getMenuItemsByRole = () => {
     const baseItems = [
       { title: 'Profile', path: '/profile', description: 'View and update your profile' },
-      { title: 'Track Shipment', path: '/track', description: 'Track your shipments' }
+      { title: 'Track Shipment', path: '/track', description: 'Track individual shipments' },
+      { title: 'View All Shipments', path: '/all-shipments', description: user?.role === 'CUSTOMER' ? 'View your shipments' : 'View all shipments in system' }
     ];
 
     switch (user?.role) {
@@ -50,17 +51,16 @@ const Dashboard = () => {
   const menuItems = getMenuItemsByRole();
 
   return (
-    <div className="container">
-      <div className="card">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <h2>Welcome, {user?.username}!</h2>
-            <p style={{ color: '#666', margin: 0 }}>
-              Role: <strong>{user?.role}</strong>
-            </p>
-          </div>
+    <div className="dashboard fade-in">
+      <div className="dashboard-header">
+        <h1>Welcome back, {user?.username}! 👋</h1>
+        <p>Manage your logistics operations from your personalized dashboard</p>
+        <div className="d-flex align-center justify-center gap-3 mt-4">
+          <span className="badge badge-primary">
+            Role: {user?.role}
+          </span>
           <button 
-            className="btn btn-secondary"
+            className="btn btn-danger"
             onClick={handleLogout}
           >
             Logout
@@ -68,66 +68,67 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid">
+      <div className="dashboard-menu">
         {menuItems.map((item, index) => (
           <div 
             key={index}
-            className="card"
-            style={{ 
-              cursor: 'pointer',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              ':hover': {
-                transform: 'translateY(-2px)',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)'
-              }
-            }}
+            className="menu-item hover-lift"
             onClick={() => handleNavigation(item.path)}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            }}
           >
-            <h3 style={{ margin: '0 0 10px 0', color: '#007bff' }}>
-              {item.title}
-            </h3>
-            <p style={{ margin: 0, color: '#666' }}>
-              {item.description}
-            </p>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
           </div>
         ))}
       </div>
 
-      <div className="card mt-3" style={{ backgroundColor: '#f8f9fa' }}>
-        <h4>Role Permissions:</h4>
+      <div className="card glass-card mt-5">
+        <div className="card-header">
+          <h4 className="card-title">🔐 Role Permissions</h4>
+          <p className="card-subtitle">Your current access level and capabilities</p>
+        </div>
         {user?.role === 'ADMIN' && (
-          <ul>
-            <li>Create and track shipments</li>
-            <li>Update shipment status</li>
-            <li>Change fees status (mark as paid/pending)</li>
-            <li>Manage users and assign roles</li>
-            <li>Full system access</li>
-          </ul>
+          <div className="alert alert-info">
+            <span>👑</span>
+            <div>
+              <strong>Administrator Access</strong>
+              <ul className="mt-2 mb-0" style={{ paddingLeft: '20px' }}>
+                <li>Create and track shipments</li>
+                <li>Update shipment status</li>
+                <li>Change fees status (mark as paid/pending)</li>
+                <li>Manage users and assign roles</li>
+                <li>Full system access</li>
+              </ul>
+            </div>
+          </div>
         )}
         {user?.role === 'MANAGER' && (
-          <ul>
-            <li>Create and track shipments</li>
-            <li>Update shipment status (only for paid shipments)</li>
-            <li>Cannot change fees status</li>
-            <li>Cannot manage users</li>
-          </ul>
+          <div className="alert alert-success">
+            <span>👔</span>
+            <div>
+              <strong>Manager Access</strong>
+              <ul className="mt-2 mb-0" style={{ paddingLeft: '20px' }}>
+                <li>Create and track shipments</li>
+                <li>Update shipment status (only for paid shipments)</li>
+                <li>Cannot change fees status</li>
+                <li>Cannot manage users</li>
+              </ul>
+            </div>
+          </div>
         )}
         {user?.role === 'CUSTOMER' && (
-          <ul>
-            <li>Create shipments</li>
-            <li>Track own shipments (only if fees are paid)</li>
-            <li>Cannot update shipment status</li>
-            <li>Cannot change fees status</li>
-            <li>Cannot manage users</li>
-          </ul>
+          <div className="alert alert-info">
+            <span>👤</span>
+            <div>
+              <strong>Customer Access</strong>
+              <ul className="mt-2 mb-0" style={{ paddingLeft: '20px' }}>
+                <li>Create shipments</li>
+                <li>Track own shipments (only if fees are paid)</li>
+                <li>Cannot update shipment status</li>
+                <li>Cannot change fees status</li>
+                <li>Cannot manage users</li>
+              </ul>
+            </div>
+          </div>
         )}
       </div>
     </div>

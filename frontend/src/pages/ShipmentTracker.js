@@ -155,16 +155,16 @@ const ShipmentTracker = () => {
                 
                 <div className="form-group">
                   <label><strong>Fees Amount:</strong></label>
-                  <p>₹{shipment.feesAmount}</p>
+                  <p>₹1000</p>
                 </div>
                 
                 <div className="form-group">
                   <label><strong>Fees Status:</strong></label>
                   <p style={{ 
-                    color: shipment.feesPaid ? '#28a745' : '#dc3545',
+                    color: shipment.feePaid ? '#28a745' : '#dc3545',
                     fontWeight: 'bold'
                   }}>
-                    {shipment.feesPaid ? 'Paid' : 'Pending'}
+                    {shipment.feePaid ? 'Paid' : 'Pending'}
                   </p>
                 </div>
               </div>
